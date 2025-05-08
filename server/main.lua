@@ -6,31 +6,35 @@ local currentVersion = '1.0.0'
 
 -- Function to check version against GitHub
 local function CheckVersion()
-    PerformHttpRequest('https://api.github.com/repos/BoogeyMan11588/QB-DrugRunner/releases/latest', function(err, text, headers)
+    -- Updated URL to match your repository structure
+    local url = 'https://raw.githubusercontent.com/BoogeyMan11588/QB-DrugRunner/main/version.json'
+    
+    PerformHttpRequest(url, function(err, text, headers)
         if err ~= 200 then
-            print('^1[RUNNER] Failed to check for updates^7')
+            print('^1[RUNNER] Failed to check for updates (Error Code: ' .. tostring(err) .. ')^7')
             return
         end
         
-        local data = json.decode(text)
-        if not data then return end
+        local success, data = pcall(function() return json.decode(text) end)
+        if not success or not data then
+            print('^1[RUNNER] Failed to parse version data^7')
+            return
+        end
         
-        local latestVersion = tostring(data.tag_name):gsub("^v", "") -- Remove 'v' prefix if present
-        
-        if latestVersion ~= currentVersion then
+        if data.version ~= currentVersion then
             print('^3╔══════════════════════════════════════════════════╗^7')
-            print('^3║            DRUG RUNNER UPDATE AVAILABLE          ║^7')
+            print('^3║             DRUG RUNNER UPDATE AVAILABLE         ║^7')
             print('^3║──────────────────────────────────────────────────║^7')
             print('^3║^7')
             print('^3║^7 Current Version: ^1' .. currentVersion .. '^7')
-            print('^3║^7 Latest Version: ^2' .. latestVersion .. '^7')
+            print('^3║^7 Latest Version: ^2' .. data.version .. '^7')
             print('^3║^7')
             print('^3║^7 Changes in latest version:^7')
-            for line in string.gmatch(data.body or "No changelog provided.", "[^\r\n]+") do
-                print('^3║^7 ' .. line)
+            for _, change in ipairs(data.changelog or {"No changelog provided."}) do
+                print('^3║^7 - ' .. change)
             end
             print('^3║^7')
-            print('^3║^7 Download: ' .. (data.html_url or "https://github.com/BoogeyMan11588/QB-DrugRunner/releases/latest"))
+            print('^3║^7 Download: https://github.com/BoogeyMan11588/QB-DrugRunner')
             print('^3║^7')
             print('^3╚══════════════════════════════════════════════════╝^7')
         else
