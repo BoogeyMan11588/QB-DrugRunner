@@ -5,7 +5,7 @@ local playerCooldowns = {}
 CreateThread(function()
     print([[
 ┌─────────────────────────────────┐
-│           R U N N E R           │
+│       D R U G R U N N E R       │
 └─────────────────────────────────┘
     Drug Run Script - v]] .. Config.Version .. [[
     Server-side initialized
