@@ -22,7 +22,7 @@ QB-Drug Running Script
 
 # copy - paste into ps-dispatch/client/alerts.lua
 ```
-    local function DrugTrafficking()
+local function DrugTrafficking()
     local coords = GetEntityCoords(cache.ped)
 
     local dispatchData = {
