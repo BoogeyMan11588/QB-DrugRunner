@@ -1,15 +1,56 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local playerCooldowns = {}
 
--- Print initialization message
+-- Set your current version here
+local currentVersion = '1.0.0'
+
+-- Function to check version against GitHub
+local function CheckVersion()
+    PerformHttpRequest('https://api.github.com/repos/BoogeyMan11588/QB-DrugRunner/releases/latest', function(err, text, headers)
+        if err ~= 200 then
+            print('^1[RUNNER] Failed to check for updates^7')
+            return
+        end
+        
+        local data = json.decode(text)
+        if not data then return end
+        
+        local latestVersion = tostring(data.tag_name):gsub("^v", "") -- Remove 'v' prefix if present
+        
+        if latestVersion ~= currentVersion then
+            print('^3╔══════════════════════════════════════════════════╗^7')
+            print('^3║            DRUG RUNNER UPDATE AVAILABLE          ║^7')
+            print('^3║──────────────────────────────────────────────────║^7')
+            print('^3║^7')
+            print('^3║^7 Current Version: ^1' .. currentVersion .. '^7')
+            print('^3║^7 Latest Version: ^2' .. latestVersion .. '^7')
+            print('^3║^7')
+            print('^3║^7 Changes in latest version:^7')
+            for line in string.gmatch(data.body or "No changelog provided.", "[^\r\n]+") do
+                print('^3║^7 ' .. line)
+            end
+            print('^3║^7')
+            print('^3║^7 Download: ' .. (data.html_url or "https://github.com/BoogeyMan11588/QB-DrugRunner/releases/latest"))
+            print('^3║^7')
+            print('^3╚══════════════════════════════════════════════════╝^7')
+        else
+            print('^2[RUNNER]^7 You are running the latest version!')
+        end
+    end, 'GET', '', {['User-Agent'] = 'QB-DrugRunner Version Checker'})
+end
+
+-- Print banner and check version on resource start
 CreateThread(function()
     print([[
 ┌─────────────────────────────────┐
 │       D R U G R U N N E R       │
 └─────────────────────────────────┘
-    Drug Run Script - v]] .. Config.Version .. [[
+    Drug Run Script - v]] .. currentVersion .. [[
     Server-side initialized
     ]])
+    
+    Wait(2000)
+    CheckVersion()
 end)
 
 -- Get number of police online
