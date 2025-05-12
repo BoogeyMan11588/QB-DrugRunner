@@ -1,9 +1,11 @@
 # runner
 QB-Drug Running Script vibe coded w/ tweaks.
 
+# ped models
+`https://docs.fivem.net/docs/game-references/ped-models/`
 
-
-
+# drug inventory
+You can change what you can run via config.lua
 
 # copy - paste into ps-dispatch/shared/config.lua
 ```
