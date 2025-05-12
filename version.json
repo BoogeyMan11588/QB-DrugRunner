@@ -1,6 +1,7 @@
 {
     "version": "1.0.5",
     "changelog": [
-        "Updated README.md"
+        "Updated README.md",
+        "Changed versioning logic in server/main.lua"
     ]
 }
