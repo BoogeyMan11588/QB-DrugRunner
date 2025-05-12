@@ -12,7 +12,6 @@ local function GetLocalVersion()
     return "unknown"
 end
 
-local currentVersion = GetLocalVersion()
 -- Function to check version against GitHub
 local function CheckVersion()
     -- Updated URL to match your repository structure
