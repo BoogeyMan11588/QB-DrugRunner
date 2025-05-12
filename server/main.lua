@@ -1,9 +1,18 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local playerCooldowns = {}
 
--- Set your current version here
-local currentVersion = '1.0.0'
+local function GetLocalVersion()
+    local versionData = LoadResourceFile(GetCurrentResourceName(), "version.json")
+    if versionData then
+        local success, data = pcall(function() return json.decode(versionData) end)
+        if success and data and data.version then
+            return data.version
+        end
+    end
+    return "unknown"
+end
 
+local currentVersion = GetLocalVersion()
 -- Function to check version against GitHub
 local function CheckVersion()
     -- Updated URL to match your repository structure
