@@ -208,6 +208,17 @@ CreateThread(function()
             local pos = GetEntityCoords(ped)
             local dist = #(pos - vector3(currentDelivery.x, currentDelivery.y, currentDelivery.z))
             
+            -- Check if player still has the drugs
+            local hasDrugs = QBCore.Functions.HasItem(Config.Drugs[currentRun.drugType].itemName)
+            if not hasDrugs then
+                QBCore.Functions.Notify('You lost the drugs! Run cancelled.', 'error')
+                RemoveBlip(deliveryBlip)
+                currentDelivery = nil
+                currentRun = nil
+                isOnRun = false
+                return
+            end
+
             if dist < 5.0 then
                 -- Trigger server-side police check
                 QBCore.Functions.TriggerCallback('qb-drugrun:server:checkPoliceNearby', function(policeNearby)
