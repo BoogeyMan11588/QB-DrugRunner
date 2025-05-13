@@ -216,7 +216,6 @@ CreateThread(function()
                 currentDelivery = nil
                 currentRun = nil
                 isOnRun = false
-                return
             end
 
             if dist < 5.0 then
