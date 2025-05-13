@@ -1,16 +1,28 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local playerCooldowns = {}
 
-local function GetLocalVersion()
-    local versionData = LoadResourceFile(GetCurrentResourceName(), "version.json")
-    if versionData then
-        local success, data = pcall(function() return json.decode(versionData) end)
-        if success and data and data.version then
-            return data.version
+-- Function to load and decode version.json
+local function GetVersionData()
+    local resourceName = GetCurrentResourceName()
+    local versionFile = LoadResourceFile(resourceName, "version.json")
+    if versionFile then
+        local success, data = pcall(json.decode, versionFile)
+        if success and data then
+            return data
+        else
+            print("^1[RUNNER] Error decoding version.json: " .. (data or "Unknown error") .. "^7")
+            return nil
         end
+    else
+        print("^1[RUNNER] Error loading version.json^7")
+        return nil
     end
-    return "unknown"
 end
+
+-- Get version data and set currentVersion
+local versionData = GetVersionData()
+local currentVersion = versionData and versionData.version or "unknown"
+
 
 -- Function to check version against GitHub
 local function CheckVersion()
@@ -30,19 +42,16 @@ local function CheckVersion()
         end
         
         if data.version ~= currentVersion then
-            print('^3                                                    ^7')
-            print('^3              DRUG RUNNER UPDATE AVAILABLE          ^7')
-            print('^3^7')
+            print('^3───────────────────────────────────────────────────^7')
+            print('^3              DRUG RUNNER UPDATE AVAILABLE         ^7')
+            print('^3───────────────────────────────────────────────────^7')
             print('^3^7 Current Version: ^1' .. currentVersion .. '^7')
             print('^3^7 Latest Version: ^2' .. data.version .. '^7')
-            print('^3^7')
             print('^3^7 Changes in latest version:^7')
             for _, change in ipairs(data.changelog or {"No changelog provided."}) do
-                print('^3║^7 - ' .. change)
+                print('^3^7 * ' .. change)
             end
-            print('^3^7')
             print('^3^7 Download: https://github.com/BoogeyMan11588/QB-DrugRunner')
-            print('^3^7')
         else
             print('^2[RUNNER]^7 You are running the latest version!')
         end
@@ -59,7 +68,7 @@ CreateThread(function()
     Server-side initialized
     ]])
     
-    Wait(2000)
+    Wait(2000) -- Wait 2 seconds before checking version
     CheckVersion()
 end)
 
