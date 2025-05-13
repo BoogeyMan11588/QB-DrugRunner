@@ -221,7 +221,7 @@ end)
 QBCore.Commands.Add('runnerinfo', 'Check drug runner info (Admin Only)', {}, false, function(source)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-    if Player.PlayerData.job.grade.level >= 6 then -- Adjust admin level as needed
+    if Player.PlayerData.job.grade.level >= 4 then -- Adjust admin level as needed
         local numCooldowns = 0
         for _ in pairs(playerCooldowns) do numCooldowns = numCooldowns + 1 end
         
