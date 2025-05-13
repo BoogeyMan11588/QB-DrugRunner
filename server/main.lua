@@ -30,21 +30,19 @@ local function CheckVersion()
         end
         
         if data.version ~= currentVersion then
-            print('^3╔══════════════════════════════════════════════════╗^7')
-            print('^3║             DRUG RUNNER UPDATE AVAILABLE         ║^7')
-            print('^3║──────────────────────────────────────────────────║^7')
-            print('^3║^7')
-            print('^3║^7 Current Version: ^1' .. currentVersion .. '^7')
-            print('^3║^7 Latest Version: ^2' .. data.version .. '^7')
-            print('^3║^7')
-            print('^3║^7 Changes in latest version:^7')
+            print('^3                                                    ^7')
+            print('^3              DRUG RUNNER UPDATE AVAILABLE          ^7')
+            print('^3^7')
+            print('^3^7 Current Version: ^1' .. currentVersion .. '^7')
+            print('^3^7 Latest Version: ^2' .. data.version .. '^7')
+            print('^3^7')
+            print('^3^7 Changes in latest version:^7')
             for _, change in ipairs(data.changelog or {"No changelog provided."}) do
                 print('^3║^7 - ' .. change)
             end
-            print('^3║^7')
-            print('^3║^7 Download: https://github.com/BoogeyMan11588/QB-DrugRunner')
-            print('^3║^7')
-            print('^3╚══════════════════════════════════════════════════╝^7')
+            print('^3^7')
+            print('^3^7 Download: https://github.com/BoogeyMan11588/QB-DrugRunner')
+            print('^3^7')
         else
             print('^2[RUNNER]^7 You are running the latest version!')
         end
